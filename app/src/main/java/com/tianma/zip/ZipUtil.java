@@ -20,14 +20,13 @@ public class ZipUtil {
     }
 
     /**
-     * 压缩文件或目录
-     *
-     * @param fileOrDir   被压缩的文件或目录
+     * 将多个(1~n)个文件或者目录压缩至目标文件
      * @param destZipFile 目标压缩文件
+     * @param fileOrDirs 多个被压缩的文件或目录
      * @throws IOException
      */
-    public static void zip(File fileOrDir, File destZipFile) throws IOException {
-        new ZipCompress().zip(fileOrDir, destZipFile);
+    public static void zip(File destZipFile, File... fileOrDirs) throws IOException {
+        new ZipCompress().zip(destZipFile, fileOrDirs);
     }
 
     /**
@@ -48,20 +47,21 @@ public class ZipUtil {
         private static int buf = 4096;
 
         /**
-         * 压缩文件或目录
-         *
-         * @param fileOrDir   被压缩的文件或目录
+         * 将多个(1~n)个文件或者目录压缩至目标文件
          * @param destZipFile 目标压缩文件
+         * @param fileOrDirs 多个被压缩的文件或目录
          * @throws IOException
          */
-        public void zip(File fileOrDir, File destZipFile) throws IOException {
+        public void zip(File destZipFile, File... fileOrDirs) throws IOException{
             ZipOutputStream zos = null;
             try {
                 zos = new ZipOutputStream(new FileOutputStream(destZipFile));
-                if (fileOrDir.isDirectory()) {
-                    zipDir(fileOrDir, fileOrDir, zos);
-                } else {
-                    zipFile(fileOrDir, fileOrDir.getParentFile(), zos);
+                for(File fileOrDir : fileOrDirs) {
+                    if (fileOrDir.isDirectory()) {
+                        zipDir(fileOrDir, fileOrDir, zos);
+                    } else {
+                        zipFile(fileOrDir, fileOrDir.getParentFile(), zos);
+                    }
                 }
             } finally {
                 if (zos != null) {

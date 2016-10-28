@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                ZipUtil.zip(new File(srcPath), new File(destPath));
+                ZipUtil.zip(new File(destPath), new File(srcPath));
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;
