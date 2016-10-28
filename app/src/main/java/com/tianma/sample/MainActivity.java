@@ -3,6 +3,7 @@ package com.tianma.sample;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     private void chooseDestination() {
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;
@@ -135,6 +137,28 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
+            if (TextUtils.isEmpty(srcPath)) {
+                Toast.makeText(MainActivity.this, "Plz choose a zip file", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            File srcFile = new File(srcPath);
+            if (!srcFile.isFile()) {
+                Toast.makeText(MainActivity.this, "Plz choose a file", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            try {
+                if (TextUtils.isEmpty(destPath)) {
+                    ZipUtil.unzip(srcFile);
+                } else {
+                    ZipUtil.unzip(srcFile, new File(destPath));
+                }
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return false;
         }
 
