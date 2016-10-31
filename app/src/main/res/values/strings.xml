@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Logger</string>
+    <string name="app_name">ZipSample</string>
     <string name="zip">Zip</string>
     <string name="src">Source</string>
     <string name="dest">Destination</string>
